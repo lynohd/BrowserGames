@@ -1,0 +1,70 @@
+﻿@page "/tictactoe"
+@using BrowserGames.TicTacToe;
+<h1>Tic Tac Toe</h1>
+
+
+<div>
+    Show Debug
+    <InputCheckbox @bind-Value="@debug"/>
+</div>
+
+<button @onclick="() => game.ResetBoard()">Reset</button>
+
+    <p>Turns: @game.Turns</p>
+    <p>Current Turn: @game.CurrentTurn</p>
+
+@if(game.IsGameOver)
+{
+    <p>Game is over!</p>
+}
+
+<main class="background">
+    <div class="container">
+        @for(int _row = game.Board.GetLowerBound(0); _row < 3; _row++)
+        {
+            @for(int _col= game.Board.GetLowerBound(0); _col < 3; _col++)
+            {
+                //Cache it to avoid some issues
+                int row = _row;
+                int col = _col;
+                <div class="tile" @onclick="() => OnTileClicked(row, col)">
+
+                @if(debug)
+                {
+                    <div class="debug">
+                        X: @row Y: @col
+                    </div>
+                }
+
+                    <div class="tile-value">
+                        @if(game[row,col] != GamePiece.Empty)
+                        {
+                            <text>@game[row,col]</text>
+                        }
+                    </div>
+
+                </div>
+            }
+        }
+    </div>
+</main>
+
+@code {
+    public Game game;
+
+
+    bool debug = true;
+
+    private void OnTileClicked(int row, int col)
+    {
+        game.PerformPlay(row, col);
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        game = new();
+    }
+
+
+}

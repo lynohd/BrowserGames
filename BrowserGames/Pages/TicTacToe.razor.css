@@ -1,0 +1,65 @@
+﻿body
+{
+    background-color: black;
+}
+
+h1{
+    text-align:center;
+}
+
+td{
+    width:100px;
+    height: 100px;
+}
+
+table{
+    margin: 5px auto;
+}
+
+.vert{
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+}
+.hori{
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+
+*{
+    padding: 0;
+    margin: 0;
+    font-family: Calibri;
+    font-size: 25px;
+}
+
+.container {
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 33% 33% 33%;
+    max-width: 300px;
+}
+
+.debug{
+    font-size: 10px;
+}
+
+.tile-value{
+    font-size: 50px;
+    justify-content:center;
+    align-items: center;
+}
+
+.tile {
+    border: 1px solid black;
+    min-width: 100px;
+    min-height: 100px;
+    max-height: 100px;
+    max-width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    cursor:  pointer;
+}
