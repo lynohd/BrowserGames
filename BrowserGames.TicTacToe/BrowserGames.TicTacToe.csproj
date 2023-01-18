@@ -13,6 +13,6 @@
 				BrowserGames.TicTacToe.Tests
 			</_Parameter1>
 		</AssemblyAttribute>
-		<InternalsVisibleTo Include="BrowserGames.TicTacToe.Tests"/>
+		<InternalsVisibleTo Include="BrowserGames.TicTacToe.Tests" />
 	</ItemGroup>
 </Project>

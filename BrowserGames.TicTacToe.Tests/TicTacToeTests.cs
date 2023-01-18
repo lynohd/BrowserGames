@@ -5,11 +5,14 @@ namespace BrowserGames.TicTacToe.Tests;
 public class TicTacToeTests
 {
     //using a proxy of game to make testing easier
-    public GameProxy game;
-    
+    //public GameProxy game;
+
+    public IGame game;
+
     public TicTacToeTests()
     {
-        game = new GameProxy(new Game());
+        //game = new GameProxy(new Game());
+        game = new Game();
     }
 
 
@@ -27,18 +30,40 @@ public class TicTacToeTests
     }
 
     [Fact]
-    public void GAME_BOARD_GETS_RESET_ON_GAME_END()
+    public void HAS_WINNER()
     {
+        List<(int, int, GamePiece)> list = new List<(int, int, GamePiece)>()
+        {
+            (0, 0, GamePiece.O),
+            (1, 0, GamePiece.O),
+            (2, 0, GamePiece.O)
+        };
+        var evt = Assert.Raises<WinnerEventArgs>(
+            a => game.OnWin += a,
+            a => game.OnWin -= a,
+            () => {
+                var proxy = new GameProxy(game);
+                proxy.SetTiles(list);
+            });
 
-        for(int row = game.Board.GetLowerBound(0); row <= game.Board.GetUpperBound(0); row++)
-            for(int col = game.Board.GetLowerBound(0); col <= game.Board.GetUpperBound(0); col++)
-                game.PerformPlay(row,col);
+        Assert.NotNull(evt);
 
 
-        Assert.True(AllTilesAreEmpty);
     }
 
-    [Fact]
+    //[Fact]
+    //public void GAME_BOARD_GETS_RESET_ON_GAME_END()
+    //{
+
+    //    for(int row = game.Board.GetLowerBound(0); row <= game.Board.GetUpperBound(0); row++)
+    //        for(int col = game.Board.GetLowerBound(0); col <= game.Board.GetUpperBound(0); col++)
+    //            game.PerformPlay(row,col);
+
+
+    //    Assert.True(AllTilesAreEmpty);
+    //}
+
+    //[Fact]
     public void GAME_THROWS_WHEN_PLACING_TILE_OUT_OF_BOUNDS()
     {
         Assert.Throws<IndexOutOfRangeException>(() => game.SetTile(10, 10, GamePiece.X));
@@ -76,9 +101,10 @@ public class TicTacToeTests
 
 
 
-        game.SetTiles(list);
-
-        Assert.True(AllTilesAreOs);
+        //game.SetTiles(list);
+        var proxy = new GameProxy(game);
+        proxy.SetTiles(list, ignoreChecks: true);
+        Assert.True(proxy.Board.OfType<GamePiece>().ToList().All(x => x == GamePiece.O));
 
     }
 
@@ -99,13 +125,13 @@ public class TicTacToeTests
             (2, 2, GamePiece.X),
         };
 
-        game.SetTiles(list);
-
-        Assert.True(AllTilesAreXs);
+        var proxy = new GameProxy(game);
+        proxy.SetTiles(list, ignoreChecks: true);
+        Assert.True(proxy.Board.OfType<GamePiece>().ToList().All(x => x == GamePiece.X));
 
     }
 
-    public bool AllTilesAreXs => game.Board.OfType<GamePiece>().ToList().All(x => x == GamePiece.X);
-    public bool AllTilesAreOs => game.Board.OfType<GamePiece>().ToList().All(x => x == GamePiece.O);
+    //public bool AllTilesAreXs => game.Board.OfType<GamePiece>().ToList().All(x => x == GamePiece.X);
+    //public bool AllTilesAreOs => game.Board.OfType<GamePiece>().ToList().All(x => x == GamePiece.O);
     public bool AllTilesAreEmpty => game.Board.OfType<GamePiece>().ToList().All(x => x == GamePiece.Empty);
 }

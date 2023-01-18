@@ -29,15 +29,35 @@ public  class GameProxy : IGame
         _game = game;
     }
 
+    public event EventHandler<WinnerEventArgs> OnWin {
+        add {
+            _game.OnWin += value;
+        }
+
+        remove {
+            _game.OnWin -= value;
+        }
+    }
+
+
+
+
 
     /// <summary>
     /// Used for unit testing
     /// </summary>
     /// <param name="tiles"></param>
-    internal void SetTiles(IEnumerable<(int row, int column, GamePiece piece)> tiles)
+    internal void SetTiles(IEnumerable<(int row, int column, GamePiece piece)> tiles, bool ignoreChecks = false)
     {
         foreach(var t in tiles)
         {
+
+            if(ignoreChecks)
+            {
+                Game g = _game as Game;
+
+                g.SetTileWithoutChecks(t.row, t.column, t.piece);
+            }else
             SetTile(t.row, t.column, t.piece);
         }
     }

@@ -12,6 +12,8 @@ public interface IGame
     int Turns { get; }
     GamePiece CurrentTurn { get; }
 
+    event EventHandler<WinnerEventArgs> OnWin;
+
     GamePiece GetTile(int row, int column);
     bool IsOccupied(int row, int column);
     bool IsWithinBounds(int row, int col);

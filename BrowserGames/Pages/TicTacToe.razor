@@ -3,17 +3,18 @@
 <h1>Tic Tac Toe</h1>
 
 
-<div>
-    Show Debug
-    <InputCheckbox @bind-Value="@debug"/>
-</div>
 
-<button @onclick="() => game.ResetBoard()">Reset</button>
-
-    <p>Turns: @game.Turns</p>
+@if(hasWinner && Winner != null)
+{
+    <p>@Winner.Player won!</p>
+}
+else
+{
     <p>Current Turn: @game.CurrentTurn</p>
+}
+<p>Turns: @game.Turns</p>
 
-@if(game.IsGameOver)
+@if(game.IsGameOver && Winner == null)
 {
     <p>Game is over!</p>
 }
@@ -28,14 +29,6 @@
                 int row = _row;
                 int col = _col;
                 <div class="tile" @onclick="() => OnTileClicked(row, col)">
-
-                @if(debug)
-                {
-                    <div class="debug">
-                        X: @row Y: @col
-                    </div>
-                }
-
                     <div class="tile-value">
                         @if(game[row,col] != GamePiece.Empty)
                         {
@@ -47,23 +40,37 @@
             }
         }
     </div>
+    <button @onclick="() => game.ResetBoard()">Reset</button>
 </main>
 
 @code {
     public Game game;
 
+    bool hasWinner = false;
 
-    bool debug = true;
+
+    public WinnerEventArgs? Winner{ get; set; }
+
 
     private void OnTileClicked(int row, int col)
     {
         game.PerformPlay(row, col);
-
     }
 
     protected override async Task OnInitializedAsync()
     {
         game = new();
+        game.OnWin += (o,e) =>
+        {
+            hasWinner = true;
+            Winner = e;
+        };
+
+        game.OnRestart += () =>
+        {
+            hasWinner = false;
+            Winner = null;
+        };
     }
 
 

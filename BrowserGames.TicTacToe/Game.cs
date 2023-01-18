@@ -1,4 +1,9 @@
-﻿namespace BrowserGames.TicTacToe;
+﻿using System;
+using System.Security.Cryptography.X509Certificates;
+
+namespace BrowserGames.TicTacToe;
+
+
 public class Game : IGame
 {
     //Should always be 3x3 for tictactoe
@@ -14,13 +19,14 @@ public class Game : IGame
     ///////////////////////////////////////////////////////////EVENTS///////////////////////////////////////////////////
 
     public event Action? OnRestart;
-    public event Action<GamePiece>? OnWin;
+    public event EventHandler<WinnerEventArgs> OnWin;
 
+    bool _gameOver = false;
 
     /// <summary>
     /// Game should be over when all the tiles are filled
     /// </summary>
-    public bool IsGameOver => (Turns >= (COLUMNS * ROWS));
+    public bool IsGameOver => Turns >= (COLUMNS * ROWS) | _gameOver;
 
     /// <summary>
     /// Game should be over at 9 turns maximum
@@ -49,13 +55,15 @@ public class Game : IGame
     }
 
 
-
     public bool IsWithinBounds(int row, int col) => ((col < COLUMNS && row < ROWS) && (col >= 0 && row >= 0));
     
     public bool IsOccupied(int row, int column) => this[row, column] != GamePiece.Empty;
 
 
     public GamePiece GetTile(int row, int column) => this[row, column];
+
+
+
 
     public void ResetBoard()
     {
@@ -69,6 +77,7 @@ public class Game : IGame
 
         Turns = 0;
         CurrentTurn = Player;
+        _gameOver= false;
         OnRestart?.Invoke();
     }
 
@@ -79,9 +88,11 @@ public class Game : IGame
     /// <param name="row"></param>
     /// <param name="column"></param>
     /// <param name="piece"></param>
-    private void SetTileWithoutChecks(int row, int column, GamePiece piece)
+    internal void SetTileWithoutChecks(int row, int column, GamePiece piece)
     {
         this[row, column] = piece;
+        if(CheckWin(row, column, piece))
+            OnWin?.Invoke(this, new(piece));
     }
 
     /// <summary>
@@ -107,19 +118,37 @@ public class Game : IGame
             }
         }
 
-        if(IsGameOver)
-        {
-            EndGame();
-        }
-        
     }
-    /// <summary>
-    /// Perform win checks here
-    /// </summary>
+
+    public bool CheckWin(int row, int col, GamePiece player)
+    {
+        List<(int, int)[]> conditions = new List<(int, int)[]>
+        {
+            new[] { (row, 0), (row, 1), (row, 2) },
+            new[] {(0, col), (1, col), (2, col)},
+            new[] {(0,0), (1,1), (2,2)},
+            new[] {(0,2), (1,1), (2,0)}
+        };
+
+
+        bool HasWin((int, int)[] tiles, GamePiece player)
+        {
+            foreach((int row, int col) in tiles)
+            {
+                if(Board[row, col] != player)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        return conditions.Any(x => HasWin(x, player));
+    }
+
+
     public void EndGame()
     {
-        OnWin?.Invoke(Player);
-
         ResetBoard();
     }
 
@@ -134,6 +163,9 @@ public class Game : IGame
     /// <exception cref="IndexOutOfRangeException">Will be thrown if you're trying to place a piece out of the board bounds.</exception>
     public bool SetTile(int row, int column, GamePiece piece)
     {
+        if(IsGameOver)
+            return false;
+
         if(IsWithinBounds(row, column))
         {
             if(IsOccupied(row, column))
@@ -143,12 +175,16 @@ public class Game : IGame
             }
 
             this[row, column] = piece;
+            if(CheckWin(row, column, piece))
+            {
+                OnWin?.Invoke(this, new(piece));
+                _gameOver = true;
+            }
             Turns++;
             return true;
         }
 
-        Console.WriteLine("your selection is out of bound something went wrong.");
-        throw new IndexOutOfRangeException("your selection is out of bound something went wrong.");
+        throw new IndexOutOfRangeException($"your selection row: {row} col: {column}is out of bound something went wrong.");
     }
 
 }
