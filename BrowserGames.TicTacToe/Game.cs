@@ -164,7 +164,9 @@ public class Game : IGame
     public bool SetTile(int row, int column, GamePiece piece)
     {
         if(IsGameOver)
-            return false;
+        { 
+            return false; 
+        }
 
         if(IsWithinBounds(row, column))
         {
