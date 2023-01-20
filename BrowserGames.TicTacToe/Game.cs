@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
-
 namespace BrowserGames.TicTacToe;
 
 
@@ -16,17 +14,15 @@ public class Game : IGame
 
 
 
-    ///////////////////////////////////////////////////////////EVENTS///////////////////////////////////////////////////
-
     public event Action? OnRestart;
     public event EventHandler<WinnerEventArgs> OnWin;
 
-    bool _gameOver = false;
 
     /// <summary>
     /// Game should be over when all the tiles are filled
     /// </summary>
     public bool IsGameOver => Turns >= (COLUMNS * ROWS) | _gameOver;
+    bool _gameOver = false;
 
     /// <summary>
     /// Game should be over at 9 turns maximum
@@ -130,8 +126,8 @@ public class Game : IGame
             new[] {(0,2), (1,1), (2,0)}
         };
 
-
-        bool HasWin((int, int)[] tiles, GamePiece player)
+        //nested method
+        bool __HasWin((int, int)[] tiles, GamePiece player)
         {
             foreach((int row, int col) in tiles)
             {
@@ -143,7 +139,7 @@ public class Game : IGame
             return true;
         }
 
-        return conditions.Any(x => HasWin(x, player));
+        return conditions.Any(tiles => __HasWin(tiles, player));
     }
 
 
@@ -151,8 +147,6 @@ public class Game : IGame
     {
         ResetBoard();
     }
-
-
     /// <summary>
     /// 
     /// </summary>

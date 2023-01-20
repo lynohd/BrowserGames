@@ -3,7 +3,7 @@
 <h1>Tic Tac Toe</h1>
 
 
-
+<div>
 @if(hasWinner && Winner != null)
 {
     <p>@Winner.Player won!</p>
@@ -18,7 +18,7 @@ else
 {
     <p>Game is over!</p>
 }
-
+</div>
 <main class="background">
     <div class="container">
         @for(int _row = game.Board.GetLowerBound(0); _row < 3; _row++)
