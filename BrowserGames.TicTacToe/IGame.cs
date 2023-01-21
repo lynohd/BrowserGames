@@ -17,7 +17,7 @@ public interface IGame
     GamePiece GetTile(int row, int column);
     bool IsOccupied(int row, int column);
     bool IsWithinBounds(int row, int col);
-    void PerformPlay(int row, int column);
+    void PerformHotSeatPlay(int row, int column);
     void ResetBoard();
     bool SetTile(int row, int column, GamePiece piece);
 }

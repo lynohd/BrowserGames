@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserGames", "BrowserGames\BrowserGames.csproj", "{6139EB13-2532-41ED-B613-7B0003D8B9E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrowserGames", "BrowserGames\BrowserGames.csproj", "{6139EB13-2532-41ED-B613-7B0003D8B9E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserGames.TicTacToe", "BrowserGames.TicTacToe\BrowserGames.TicTacToe.csproj", "{0E0392FC-E08A-4F2A-B6A4-2CC23AB38E29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrowserGames.TicTacToe", "BrowserGames.TicTacToe\BrowserGames.TicTacToe.csproj", "{0E0392FC-E08A-4F2A-B6A4-2CC23AB38E29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserGames.TicTacToe.Tests", "BrowserGames.TicTacToe.Tests\BrowserGames.TicTacToe.Tests.csproj", "{997101F6-C714-460B-9C38-B26FAC8376D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrowserGames.TicTacToe.Tests", "BrowserGames.TicTacToe.Tests\BrowserGames.TicTacToe.Tests.csproj", "{997101F6-C714-460B-9C38-B26FAC8376D7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Games", "Games", "{1074DFC3-143E-4C47-B693-AEF1CC1827DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserGames.ConsoleApp", "BrowserGames.ConsoleApp\BrowserGames.ConsoleApp.csproj", "{3EF77BED-758F-484F-BBE2-D30A77953273}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{997101F6-C714-460B-9C38-B26FAC8376D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{997101F6-C714-460B-9C38-B26FAC8376D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{997101F6-C714-460B-9C38-B26FAC8376D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EF77BED-758F-484F-BBE2-D30A77953273}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EF77BED-758F-484F-BBE2-D30A77953273}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EF77BED-758F-484F-BBE2-D30A77953273}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EF77BED-758F-484F-BBE2-D30A77953273}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -16,6 +16,7 @@ public class Game : IGame
 
     public event Action? OnRestart;
     public event EventHandler<WinnerEventArgs> OnWin;
+    public event EventHandler<PiecePlacedEventArgs> OnTurn;
 
 
     /// <summary>
@@ -97,7 +98,7 @@ public class Game : IGame
     /// </summary>
     /// <param name="row"></param>
     /// <param name="column"></param>
-    public void PerformPlay(int row, int column)
+    public void PerformHotSeatPlay(int row, int column)
     {
         if(this.CurrentTurn == Player)
         {
@@ -171,11 +172,15 @@ public class Game : IGame
             }
 
             this[row, column] = piece;
+
+            OnTurn?.Invoke(this, new (row, column,piece));
+
             if(CheckWin(row, column, piece))
             {
-                OnWin?.Invoke(this, new(piece));
                 _gameOver = true;
+                OnWin?.Invoke(this, new(piece));
             }
+
             Turns++;
             return true;
         }

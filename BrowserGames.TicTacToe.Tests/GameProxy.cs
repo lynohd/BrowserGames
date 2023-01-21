@@ -10,9 +10,14 @@ namespace BrowserGames.TicTacToe.Tests;
 /// <summary>
 /// Proxy of Game easier testing
 /// </summary>
-public  class GameProxy : IGame
+public  class GameProxy 
 {
     private readonly IGame _game;
+    public GameProxy(IGame game)
+    {
+        _game = game;
+    }
+
     public bool IsGameOver => _game.IsGameOver;
 
     public int Turns => _game.Turns;
@@ -24,10 +29,7 @@ public  class GameProxy : IGame
         init => throw new Exception(); 
     }
 
-    public GameProxy(IGame game)
-	{
-        _game = game;
-    }
+
 
     public event EventHandler<WinnerEventArgs> OnWin {
         add {
@@ -73,9 +75,9 @@ public  class GameProxy : IGame
         return _game.GetTile(row, column);
     }
 
-    public void PerformPlay(int row, int column)
+    public void PerformHotSeatPlay(int row, int column)
     {
-        _game.PerformPlay(row, column);
+        _game.PerformHotSeatPlay(row, column);
     }
 
     public bool IsOccupied(int row, int column)
