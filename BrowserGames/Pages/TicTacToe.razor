@@ -3,75 +3,84 @@
 <h1>Tic Tac Toe</h1>
 
 
+    <div>
+    @if(_hasWinner && _winner != null)
+    {
+        <p>@_winner.Player won!</p>
+    }
+    else
+    {
+        <p>Current Turn: @_game.CurrentTurn</p>
+    }
+    <p>Turns: @_game.Turns</p>
 
-@if(hasWinner && Winner != null)
-{
-    <p>@Winner.Player won!</p>
-}
-else
-{
-    <p>Current Turn: @game.CurrentTurn</p>
-}
-<p>Turns: @game.Turns</p>
-
-@if(game.IsGameOver && Winner == null)
-{
-    <p>Game is over!</p>
-}
-
-<main class="background">
-    <div class="container">
-        @for(int _row = game.Board.GetLowerBound(0); _row < 3; _row++)
-        {
-            @for(int _col= game.Board.GetLowerBound(0); _col < 3; _col++)
-            {
-                //Cache it to avoid some issues
-                int row = _row;
-                int col = _col;
-                <div class="tile" @onclick="() => OnTileClicked(row, col)">
-                    <div class="tile-value">
-                        @if(game[row,col] != GamePiece.Empty)
-                        {
-                            <text>@game[row,col]</text>
-                        }
-                    </div>
-
-                </div>
-            }
-        }
+    @if(_game.IsGameOver && _winner == null)
+    {
+        <p>Game is over!</p>
+    }
     </div>
-    <button @onclick="() => game.ResetBoard()">Reset</button>
-</main>
+    <main class="background">
+        <div class="container">
+            @for(int _row = _game.Board.GetLowerBound(0); _row < 3; _row++)
+            {
+                @for(int _col = _game.Board.GetLowerBound(0); _col < 3; _col++)
+                {
+                    //Cache it to avoid some issues
+                    int row = _row;
+                    int col = _col;
+                    <div class="tile" @onclick="() => OnTileClicked(row, col)">
+                        <div class="tile-value">
+                            @if(_game[row,col] != GamePiece.Empty)
+                            {
+                                <text>@_game[row,col]</text>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <button @onclick="() => _game.ResetBoard()">Reset</button>
+    </main>
 
 @code {
-    public Game game;
-
-    bool hasWinner = false;
 
 
-    public WinnerEventArgs? Winner{ get; set; }
 
+    private Game _game;
+    private CpuPlayer _cpu;
+    private bool _hasWinner = false;
+    private WinnerEventArgs? _winner;
+    private bool _hotSeatMode = false;
 
     private void OnTileClicked(int row, int col)
     {
-        game.PerformPlay(row, col);
+        if (_hotSeatMode)
+        {
+            _game.PerformHotSeatPlay(row, col);
+            return;
+        }
+        if (_game.SetTile(row, col, GamePiece.O))
+        {
+            //_cpu.PerformCpuPlay();
+        }
     }
 
     protected override async Task OnInitializedAsync()
     {
-        game = new();
-        game.OnWin += (o,e) =>
+        _game = new();
+        _cpu = new(_game);
+
+        _game.OnWin += (o,e) =>
         {
-            hasWinner = true;
-            Winner = e;
+            _hasWinner = true;
+            _winner = e;
         };
 
-        game.OnRestart += () =>
+        _game.OnRestart += () =>
         {
-            hasWinner = false;
-            Winner = null;
+            _hasWinner = false;
+            _winner = null;
         };
     }
-
-
 }
