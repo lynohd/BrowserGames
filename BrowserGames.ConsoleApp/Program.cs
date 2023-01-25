@@ -1,9 +1,10 @@
 ﻿using BrowserGames.TicTacToe;
+
+using System.Text;
 //a very messy implementation of tictactoe in a console application
 
 var _game = new Game();
 var _cpu = new CpuPlayer(_game);
-
 _game.OnWin += (obj, winner) =>
 {
     Console.Clear();
@@ -44,12 +45,6 @@ goto start;
 
 void PrintBoard()
 {
-    Console.Clear();
-    for(int row = _game.Board.GetLowerBound(0); row <= _game.Board.GetUpperBound(0); row++)
-    {
-        for(int col = _game.Board.GetLowerBound(1); col <= _game.Board.GetUpperBound(1); col++)
-        {
-            Console.WriteLine($"[{row}, {col}] = {_game[row,col]}");
-        }
-    }
+   //Console.Clear();
+    Console.WriteLine(_game.ToPrettyString());
 }

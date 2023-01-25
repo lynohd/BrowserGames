@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Text;
+using System.Xml.Linq;
+
 namespace BrowserGames.TicTacToe;
 
 
@@ -22,7 +25,7 @@ public class Game : IGame
     /// <summary>
     /// Game should be over when all the tiles are filled
     /// </summary>
-    public bool IsGameOver => Turns >= (COLUMNS * ROWS) | _gameOver;
+    public bool IsGameOver => Turns >= (COLUMNS * ROWS) || _gameOver;
     bool _gameOver = false;
 
     /// <summary>
@@ -154,10 +157,11 @@ public class Game : IGame
     /// <returns>Returns true if successfull, false if not</returns>
     /// <param name="x">Row</param>
     /// <param name="y">Column</param>
-    /// <param name="piece"></param>
+    /// <param name="player"></param>
     /// <exception cref="IndexOutOfRangeException">Will be thrown if you're trying to place a piece out of the board bounds.</exception>
-    public bool SetTile(int row, int column, GamePiece piece)
+    public bool SetTile(int row, int column, GamePiece player)
     {
+        //This is in desperate need of cleaning up
         if(IsGameOver)
         { 
             return false; 
@@ -171,21 +175,35 @@ public class Game : IGame
                 return false;
             }
 
-            this[row, column] = piece;
+            this[row, column] = player;
 
-            OnTurn?.Invoke(this, new (row, column,piece));
 
-            if(CheckWin(row, column, piece))
+            if(CheckWin(row, column, player))
             {
                 _gameOver = true;
-                OnWin?.Invoke(this, new(piece));
+                OnWin?.Invoke(this, new(player));
+                return false;
             }
+            OnTurn?.Invoke(this, new (row, column,player));
 
             Turns++;
             return true;
         }
 
         throw new IndexOutOfRangeException($"your selection row: {row} col: {column}is out of bound something went wrong.");
+    }
+
+    public string ToPrettyString()
+    {
+        var sb = new StringBuilder();
+        var b = Board;
+
+        sb.AppendLine($"|{b[0, 0]}|{b[0, 1]}|{b[0, 2]}|");
+        sb.AppendLine($"|{b[1, 0]}|{b[1, 1]}|{b[1, 2]}|");
+        sb.AppendLine($"|{b[2, 0]}|{b[2, 1]}|{b[2, 2]}|");
+
+        sb.Replace("Empty", " ");
+        return sb.ToString();
     }
 
 }

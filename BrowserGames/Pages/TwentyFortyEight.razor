@@ -1,0 +1,77 @@
+﻿@page "/2048"
+@using BrowserGames.TFE;
+@inject IJSRuntime _js
+<h3>2048</h3>
+<hr />
+
+<div id="board">
+    @for(int _row = _game.Cells.GetLowerBound(0), index = 0; _row < 4; _row++, index++)
+    {
+        @for(int _col = _game.Cells.GetLowerBound(0); _col < 4; _col++)
+        {
+            //Cache it to avoid some issues
+            int row = _row;
+            int col = _col;
+            <div class="tile x8192" @onclick="() => OnTileClicked(row, col)">
+                @_game.Cells[row,col]
+            </div>
+            index++;
+        }
+    }
+</div>
+
+
+@*<main class="background">
+    <div class="container">
+        @{
+            int index = 0;
+        }
+        @for(int _row = _game.Cells.GetLowerBound(0); _row < 4; _row++)
+        {
+            @for(int _col = _game.Cells.GetLowerBound(0); _col < 4; _col++)
+            {
+                //Cache it to avoid some issues
+                int row = _row;
+                int col = _col;
+                <div id="@index" class="tile" @onclick="() => OnTileClicked(row, col)">
+                    <text>@_game.Cells[row,col]</text>
+                </div>
+                index++;
+            }
+        }
+    </div>
+</main>*@
+            
+@code {
+
+
+    GameState _game;
+
+    public int[,] Tiles = new int[4,4];
+
+
+    public (int row, int col) CurrentSelection = default;
+
+    public void OnTileClicked(int row, int col)
+    {
+        CurrentSelection = (row, col);
+    }
+
+    
+    protected override async Task OnInitializedAsync()
+    {
+        _game = new();
+
+
+        var val = await _js.InvokeAsync<object>("window.getElementById", "board");
+
+
+        for (int _row = _game.Cells.GetLowerBound(0); _row < 4; _row++)
+        {
+            for (int _col = _game.Cells.GetLowerBound(0); _col < 4; _col++)
+            {
+                //Tiles[_row, _col] = 8;
+            }
+        }
+    }
+}
