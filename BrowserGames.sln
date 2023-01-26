@@ -13,7 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Games", "Games", "{1074DFC3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrowserGames.ConsoleApp", "BrowserGames.ConsoleApp\BrowserGames.ConsoleApp.csproj", "{3EF77BED-758F-484F-BBE2-D30A77953273}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserGames.TFE", "BrowserGames.TFE\BrowserGames.TFE.csproj", "{612AFE2E-5754-4177-B8F1-7094F96D3536}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{E8FA4825-771E-4B33-B5BE-5F75E7278A47}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7B448B42-BD1B-4A40-81E3-AB42304698CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,13 +39,15 @@ Global
 		{3EF77BED-758F-484F-BBE2-D30A77953273}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EF77BED-758F-484F-BBE2-D30A77953273}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EF77BED-758F-484F-BBE2-D30A77953273}.Release|Any CPU.Build.0 = Release|Any CPU
-		{612AFE2E-5754-4177-B8F1-7094F96D3536}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{612AFE2E-5754-4177-B8F1-7094F96D3536}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{612AFE2E-5754-4177-B8F1-7094F96D3536}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{612AFE2E-5754-4177-B8F1-7094F96D3536}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6139EB13-2532-41ED-B613-7B0003D8B9E9} = {E8FA4825-771E-4B33-B5BE-5F75E7278A47}
+		{0E0392FC-E08A-4F2A-B6A4-2CC23AB38E29} = {1074DFC3-143E-4C47-B693-AEF1CC1827DF}
+		{997101F6-C714-460B-9C38-B26FAC8376D7} = {7B448B42-BD1B-4A40-81E3-AB42304698CA}
+		{3EF77BED-758F-484F-BBE2-D30A77953273} = {E8FA4825-771E-4B33-B5BE-5F75E7278A47}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {95C8C9CF-3597-479D-AFD0-54926728C741}
