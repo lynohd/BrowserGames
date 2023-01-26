@@ -1,61 +1,72 @@
 ﻿using BrowserGames.TicTacToe;
 
 using System.Text;
+using System.Xml.Linq;
 //a very messy implementation of tictactoe in a console application
 
-
-
-var _game = new Game();
-var _cpu = new CpuPlayer(_game);
-_game.OnWin += (obj, winner) =>
+public class Program
 {
-    PrintBoard();
-    Console.WriteLine("Player: " + winner.Player + " won");
-    Console.WriteLine("would you like to play again? Y/N");
-    var again = Console.ReadKey(true).Key;
+    static Game _game = new Game();
+    static CpuPlayer _cpu = new CpuPlayer(_game);
 
-    if(again == ConsoleKey.Y)
+
+    static void Main(string[] args)
     {
-        _game.ResetBoard();
+        _game.OnWin += (obj, winner) =>
+        {
+            PrintBoard();
+            Console.WriteLine("Player: " + winner.Player + " won");
+            Console.WriteLine("would you like to play again? Y/N");
+            var again = Console.ReadKey(true).Key;
+
+            if(again == ConsoleKey.Y)
+            {
+                _game.ResetBoard();
+            }
+            else
+            {
+                Environment.Exit(0);
+            }
+        };
+
+        PromptInput();
+
     }
-    else
+    static void PromptInput()
     {
-        Environment.Exit(0);
+        Console.WriteLine("Please enter a tile: ");
+        var input = Console.ReadLine();
+
+        if(input == "print")
+        {
+            PrintBoard();
+            PromptInput();
+        }
+        var split = input.Split(',');
+
+        if(split.Length <= 1)
+        {
+            Console.WriteLine("Invalid input..");
+            PromptInput();
+        }
+
+        var row = int.Parse(split[0]);
+        var col = int.Parse(split[1]);
+
+        if(!_game.SetTile(row, col, Game.Player))
+        {
+            PromptInput();
+        }
+
+        PrintBoard();
+        PromptInput();
     }
-};
 
-start:
-Console.WriteLine("Please enter a tile: ");
-var input = Console.ReadLine();
 
-if(input == "print")
-{
-    PrintBoard();
-    goto start;
+    static void PrintBoard()
+    {
+        Console.Clear();
+        Console.WriteLine(_game.ToPrettyString());
+    }
 }
 
-
-var split = input.Split(',');
-
-if(split.Length <= 1)
-{
-    Console.WriteLine("Invalid input..");
-    goto start;
-}
-
-var row = int.Parse(split[0]);
-var col = int.Parse(split[1]);
-
-if(!_game.SetTile(row, col, Game.Player))
-{
-    goto start;
-}
-
-PrintBoard();
-goto start;
-
-void PrintBoard()
-{
-    Console.Clear();
-    Console.WriteLine(_game.ToPrettyString());
-}

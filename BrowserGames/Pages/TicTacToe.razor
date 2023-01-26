@@ -60,10 +60,7 @@
             _game.PerformHotSeatPlay(row, col);
             return;
         }
-        if (_game.SetTile(row, col, GamePiece.O))
-        {
-            //_cpu.PerformCpuPlay();
-        }
+        if (_game.SetTile(row, col, GamePiece.O)){}
     }
 
     protected override async Task OnInitializedAsync()
