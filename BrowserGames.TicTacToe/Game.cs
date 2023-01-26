@@ -140,6 +140,8 @@ public class Game : IGame
                     return false;
                 }
             }
+            if(player == GamePiece.Empty)
+                return false;
             return true;
         }
 
@@ -189,7 +191,7 @@ public class Game : IGame
             Turns++;
             return true;
         }
-
+        return false;
         throw new IndexOutOfRangeException($"your selection row: {row} col: {column}is out of bound something went wrong.");
     }
 

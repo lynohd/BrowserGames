@@ -3,14 +3,25 @@
 using System.Text;
 //a very messy implementation of tictactoe in a console application
 
+
+
 var _game = new Game();
 var _cpu = new CpuPlayer(_game);
 _game.OnWin += (obj, winner) =>
 {
-    Console.Clear();
     PrintBoard();
     Console.WriteLine("Player: " + winner.Player + " won");
-    Console.ReadLine();
+    Console.WriteLine("would you like to play again? Y/N");
+    var again = Console.ReadKey(true).Key;
+
+    if(again == ConsoleKey.Y)
+    {
+        _game.ResetBoard();
+    }
+    else
+    {
+        Environment.Exit(0);
+    }
 };
 
 start:
@@ -45,6 +56,6 @@ goto start;
 
 void PrintBoard()
 {
-   //Console.Clear();
+    Console.Clear();
     Console.WriteLine(_game.ToPrettyString());
 }
